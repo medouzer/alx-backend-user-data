@@ -2,12 +2,13 @@
 """Regex-ing"""
 
 import re
+from typing import List
 
 
-def filter_datum(fields, redaction, message, separator):
+def filter_datum(fields: List[str], redaction: str, message: str,
+                 separator: str) -> str:
     """function filter_datum"""
-    newmessage = message
     for field in fields:
-        newmessage = re.sub(f'{field}=(.*?){separator}',
-                         f'{field}={redaction}{separator}', newmessage)
-    return newmessage
+        message = re.sub(f'{field}=(.*?){separator}',
+                         f'{field}={redaction}{separator}', message)
+    return message
