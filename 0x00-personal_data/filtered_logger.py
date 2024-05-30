@@ -66,21 +66,19 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         database=database
     )
 
+
 def main():
     """th main function that can retrieve the data from db"""
     db_connection = get_db()
     cursor = db_connection.cursor()
     cursor.execute("SELECT * FROM users;")
     headers = [i[0] for i in cursor.description]
-    
     logger = get_logger()
-    
     for row in cursor:
         info_answer = ''
         for value, header in zip(row, headers):
             info_answer += f'{header}={value}; '
         logger.info(info_answer.strip())
-    
     cursor.close()
     db_connection.close()
 
