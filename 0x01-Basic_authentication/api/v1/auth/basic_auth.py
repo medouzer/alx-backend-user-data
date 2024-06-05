@@ -7,16 +7,7 @@ from flask import request
 from typing import List, TypeVar
 from api.v1.auth.auth import Auth
 import base64
-
-
-class User:
-    @classmethod
-    def search(cls, query: dict):
-        # Implementation to search for users based on the query
-        pass
-    def is_valid_password(self, password: str) -> bool:
-        # Implementation to validate the password
-        pass
+from models.user import User
 
 
 class BasicAuth(Auth):
