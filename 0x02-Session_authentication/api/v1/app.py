@@ -28,19 +28,17 @@ if auth_type:
 @app.before_request
 def before_request():
     """before_request"""
-    if auth is None:
-        return
-    request.current_user = auth.current_user(request)
-    excluded_paths = ['/api/v1/status/',
-                      '/api/v1/unauthorized/', '/api/v1/forbidden/']
-    if any(request.path.startswith(path) for path in excluded_paths):
-        return
-    if not auth.require_auth(request.path, excluded_paths):
-        return
-    if auth.authorization_header(request) is None:
-        abort(401)
-    if auth.current_user(request) is None:
-        abort(403)
+    if auth:
+        request.current_user = auth.current_user(request)
+        print(f"Current User: {request.current_user}")
+        if not auth.require_auth(request.path, ['/api/v1/status/',
+                                                '/api/v1/unauthorized/',
+                                                '/api/v1/forbidden/']):
+            return
+        if auth.authorization_header(request) is None:
+            abort(401)
+        if auth.current_user(request) is None:
+            abort(403)
 
 
 @app.errorhandler(404)
