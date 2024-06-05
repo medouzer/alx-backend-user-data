@@ -30,7 +30,6 @@ def before_request():
     """before_request"""
     if auth:
         request.current_user = auth.current_user(request)
-        print(f"Current User: {request.current_user}")
         if not auth.require_auth(request.path, ['/api/v1/status/',
                                                 '/api/v1/unauthorized/',
                                                 '/api/v1/forbidden/']):
