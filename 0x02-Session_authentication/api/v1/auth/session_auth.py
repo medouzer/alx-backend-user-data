@@ -9,9 +9,11 @@ from api.v1.auth.auth import Auth
 import uuid
 from models.user import User
 
+
 class SessionAuth(Auth):
     """SessionAuth class"""
     user_id_by_session_id = {}
+
     def create_session(self, user_id: str = None) -> str:
         """create_session method"""
         if user_id is None or not isinstance(user_id, str):
