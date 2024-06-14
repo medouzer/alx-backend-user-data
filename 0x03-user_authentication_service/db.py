@@ -57,18 +57,15 @@ class DB:
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """update the user"""
-        session = self._session
         try:
             user = self.find_user_by(id=user_id)
-            for key, value in kwargs.items():
-                if not hasattr(user, key):
-                    raise ValueError(f"Invalid attribute: {key}")
-                setattr(user, key, value)
-            session.commit()
-        except NoResultFound as e:
-            print(f"Error finding user: {e}")
-        except InvalidRequestError as e:
-            print(f"Invalid query arguments: {e}")
-        except SQLAlchemyError as e:
-            session.rollback()
-            print(f"Error updating user in the database: {e}")
+        except NoResultFound:
+            raise ValueError("User with id {} not found".format(user_id))
+        for key, value in kwargs.items():
+            if not hasattr(user, key):
+                raise ValueError("User has no attribute {}".format(key))
+            setattr(user, key, value)
+        try:
+            self._session.commit()
+        except InvalidRequestError:
+            raise ValueError("Invalid request")
