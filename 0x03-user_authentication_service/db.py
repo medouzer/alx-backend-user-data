@@ -8,7 +8,10 @@ from sqlalchemy.orm.session import Session
 from sqlalchemy.exc import InvalidRequestError, SQLAlchemyError
 from sqlalchemy.orm.exc import NoResultFound
 
+import logging
+
 from user import Base, User
+logging.disable(logging.WARNING)
 
 
 class DB:
